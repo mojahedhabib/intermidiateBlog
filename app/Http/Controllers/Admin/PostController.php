@@ -62,15 +62,15 @@ class PostController extends Controller
         if(isset($image))
         {
 //            make unipue name for image
-            $currentDate = Carbon::now()->toDateString();
-            $imageName  = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+            //$currentDate = Carbon::now()->toDateString();
+            $imageName  = $slug.'-'.time().'-'.uniqid().'.'.$image->getClientOriginalExtension();
 
             if(!Storage::disk('public')->exists('post'))
             {
                 Storage::disk('public')->makeDirectory('post');
             }
 
-            $postImage = Image::make($image)->resize(1600,1066)->save();
+            $postImage = Image::make($image)->resize(1600,1066)->stream();
             Storage::disk('public')->put('post/'.$imageName,$postImage);
 
         } else {
